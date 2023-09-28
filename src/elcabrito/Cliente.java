@@ -17,6 +17,63 @@ public class Cliente {
         this.tel2 = tel2;
         this.email = email;
     }
+
+    public Cliente() {
+    }
+    
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTel1() {
+        return tel1;
+    }
+
+    public void setTel1(String tel1) {
+        this.tel1 = tel1;
+    }
+
+    public String getTel2() {
+        return tel2;
+    }
+
+    public void setTel2(String tel2) {
+        this.tel2 = tel2;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    @Override
+    public String toString() {
+        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", tel1=" + tel1 + ", tel2=" + tel2 + ", email=" + email + '}';
+    }
     
     //Codigo sql SELECT * FROM clientes;
     

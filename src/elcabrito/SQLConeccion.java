@@ -3,9 +3,10 @@ package elcabrito;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class SQLConeccion {
-    Connection SQLConexion;
+    private Connection SQLConexion;
     
     public SQLConeccion(){
         
@@ -16,20 +17,29 @@ public class SQLConeccion {
         String usuario = "root";
         String pass = "";
         
-        String driver = "com.mysql.cj.jdbc.Driver";
-        
         String databaseURL = "jdbc:mysql://"+host+":"+puerto+"/"+nameDB+"?useSSL=false";
         
         try{
-            Class.forName(driver);
             SQLConexion = DriverManager.getConnection(databaseURL,usuario,pass);
             System.out.println("Coneccion Exitosa");
         }catch(Exception ex){
-            
+            System.out.println("Coneccion fallida");
+            ex.printStackTrace();
         }
     }
     
     public Connection getConectarDB(){
         return SQLConexion;
+    }
+    
+    public void cerrarConexion() {
+        try {
+            if (SQLConexion != null && !SQLConexion.isClosed()) {
+                SQLConexion.close();
+                System.out.println("Conexión cerrada");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

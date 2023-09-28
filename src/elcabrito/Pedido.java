@@ -1,18 +1,18 @@
 
 package elcabrito;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Pedido {
     private int id;
-    private LocalDateTime fecha;
+    private Timestamp fecha;
     private String cliente;
     private int tipo;
     private String estado;
     private List<Producto> productos;
 
-    public Pedido(int id, LocalDateTime fecha, String cliente, int tipo, String estado, List<Producto> productos) {
+    public Pedido(int id, Timestamp fecha, String cliente, int tipo, String estado, List<Producto> productos) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
@@ -21,12 +21,56 @@ public class Pedido {
         this.productos = productos;
     }
 
-    
-    //cambiar Estado
+    public Pedido() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Timestamp fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
 
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
     
     //consultar Pedido
     @Override
