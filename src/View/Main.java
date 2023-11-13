@@ -9,6 +9,8 @@ import View.pages.Page_Metricas;
 import View.pages.Page_Pedidos;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 
 public class Main extends javax.swing.JFrame {
@@ -23,6 +25,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setBackground(new Color(0,0,0,0));
+        //Declaracion de las paginas del menu
         home = new Page_Home();
         mesas = new Page_Mesas();
         pedidos = new Page_Pedidos();
@@ -31,6 +34,7 @@ public class Main extends javax.swing.JFrame {
         
         menu.initMoving(Main.this);
         //sp.setVerticalScrollBar(new Scrollbar());
+        //Redireccion de las paginas a las que se seleccionan
         menu.addEventMenuSelected(new MenuSelected() {
             @Override
             public void selected(int index) {
@@ -50,6 +54,7 @@ public class Main extends javax.swing.JFrame {
         setForm(new Page_Home());
     }
     
+    //Limpia la pagina y abre la que esta seleccionada
     public void setForm(JComponent com){
         mainPanel.removeAll();
         mainPanel.add(com);
@@ -62,9 +67,9 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         panelBorder1 = new View.Swing.PanelBorder();
-        header1 = new View.Component.Header();
         mainPanel = new javax.swing.JPanel();
         menu = new View.Component.Menu();
+        header2 = new View.Component.Header();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -84,16 +89,14 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header1, javax.swing.GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
+                    .addComponent(header2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addComponent(header1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(header2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -149,7 +152,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private View.Component.Header header1;
+    private View.Component.Header header2;
     private javax.swing.JPanel mainPanel;
     private View.Component.Menu menu;
     private View.Swing.PanelBorder panelBorder1;

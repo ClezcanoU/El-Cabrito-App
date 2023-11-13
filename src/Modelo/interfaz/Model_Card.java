@@ -4,7 +4,33 @@ package Modelo.interfaz;
 import javax.swing.Icon;
 
 public class Model_Card {
+    
+    String Titulo;
+    Icon icon1;
+    String Descripcion1;
+    String Valor1;
+    Icon icon2;
+    String Descripcion2;
+    String Valor2;
+    
+    public Model_Card(String Titulo, Icon icon1, String Descripcion1, String Valor1, Icon icon2, String Descripcion2, String Valor2) {
+        this.Titulo = Titulo;
+        this.icon1 = icon1;
+        this.Descripcion1 = Descripcion1;
+        this.Valor1 = Valor1;
+        this.icon2 = icon2;
+        this.Descripcion2 = Descripcion2;
+        this.Valor2 = Valor2;
+    }
 
+    public Model_Card(String Titulo, Icon icon1) {
+        this.Titulo = Titulo;
+        this.icon1 = icon1;
+    }
+    
+    public Model_Card() {
+    }
+     
     public Icon getIcon1() {
         return icon1;
     }
@@ -60,32 +86,4 @@ public class Model_Card {
     public void setValor2(String Valor2) {
         this.Valor2 = Valor2;
     }
-
-    public Model_Card(String Titulo, Icon icon1, String Descripcion1, String Valor1, Icon icon2, String Descripcion2, String Valor2) {
-        this.Titulo = Titulo;
-        this.icon1 = icon1;
-        this.Descripcion1 = Descripcion1;
-        this.Valor1 = Valor1;
-        this.icon2 = icon2;
-        this.Descripcion2 = Descripcion2;
-        this.Valor2 = Valor2;
-    }
-
-    public Model_Card(String Titulo, Icon icon1) {
-        this.Titulo = Titulo;
-        this.icon1 = icon1;
-    }
-    
-
-    public Model_Card() {
-    }
-    
-    
-    String Titulo;
-    Icon icon1;
-    String Descripcion1;
-    String Valor1;
-    Icon icon2;
-    String Descripcion2;
-    String Valor2;
 }

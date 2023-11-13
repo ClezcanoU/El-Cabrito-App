@@ -51,7 +51,7 @@
                   <Component id="lbIcon1" min="-2" pref="50" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="lbDescripcion1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbValor1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -60,7 +60,7 @@
                   <Component id="lbIcon2" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbDescripcion2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbValor2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>

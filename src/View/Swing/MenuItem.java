@@ -13,6 +13,7 @@ public class MenuItem extends javax.swing.JPanel {
     private boolean seleccion;
     private boolean over;
     
+    //Configuracion de los items del menu
     public MenuItem(Model_Menu data) {
         initComponents();
         setOpaque(false);

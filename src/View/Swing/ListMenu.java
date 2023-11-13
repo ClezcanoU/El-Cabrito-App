@@ -27,6 +27,7 @@ public class ListMenu<E extends Object> extends JList<E>{
     public ListMenu() {
         model = new DefaultListModel();
         setModel(model);
+        //Selecionar un item del menu lateral
         addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
@@ -47,15 +48,14 @@ public class ListMenu<E extends Object> extends JList<E>{
                     repaint();
                 }
             }
-
+            //Quita la seleccion de los items del menu lateral
             @Override
             public void mouseExited(MouseEvent e) {
                 overIdenx = -1;
                 repaint();
-            }
-            
-            
+            }   
         });
+        //Hace una previsualizacion de el item del menu que tiene el mouse encima
         addMouseMotionListener(new MouseAdapter(){
             @Override
             public void mouseMoved(MouseEvent e) {

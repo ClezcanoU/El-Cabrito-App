@@ -10,22 +10,6 @@ import java.awt.RenderingHints;
 
 public class Card extends javax.swing.JPanel {
 
-    public Color getColor1() {
-        return color1;
-    }
-
-    public void setColor1(Color color1) {
-        this.color1 = color1;
-    }
-
-    public Color getColor2() {
-        return color2;
-    }
-
-    public void setColor2(Color color2) {
-        this.color2 = color2;
-    }
-
     private Color color1;
     private Color color2;
     
@@ -44,6 +28,22 @@ public class Card extends javax.swing.JPanel {
         lbIcon2.setIcon(data.getIcon2());
         lbDescripcion2.setText(data.getDescripcion2());
         lbValor2.setText(data.getValor2());
+    }
+    
+    public Color getColor1() {
+        return color1;
+    }
+
+    public void setColor1(Color color1) {
+        this.color1 = color1;
+    }
+
+    public Color getColor2() {
+        return color2;
+    }
+
+    public void setColor2(Color color2) {
+        this.color2 = color2;
     }
     
     @SuppressWarnings("unchecked")
@@ -119,14 +119,14 @@ public class Card extends javax.swing.JPanel {
                     .addComponent(lbIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbDescripcion1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbValor1)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbDescripcion2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbValor2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

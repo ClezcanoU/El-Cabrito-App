@@ -32,9 +32,9 @@ public class Header extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 517, Short.MAX_VALUE)
-                .addComponent(lbMenu))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lbMenu)
+                .addGap(0, 517, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

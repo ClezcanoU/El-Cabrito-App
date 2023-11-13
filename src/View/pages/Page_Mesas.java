@@ -1,7 +1,10 @@
 
 package View.pages;
 
+import Modelo.interfaz.ModelPieChart;
 import Modelo.interfaz.Model_Card;
+import View.Swing.PieChart;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -15,6 +18,15 @@ public class Page_Mesas extends javax.swing.JPanel {
     }
     
     public void init(){
+        
+        //Datos grafica
+        pieChart1.setChartType(PieChart.PeiChartType.DEFAULT);
+        pieChart1.addData(new ModelPieChart("Tigher", 50, new Color(23, 126, 238)));
+        pieChart1.addData(new ModelPieChart("ABC", 50, new Color(221, 65, 65)));
+        pieChart1.addData(new ModelPieChart("Coca", 50, new Color(47, 157, 64)));
+        pieChart1.addData(new ModelPieChart("Vita", 60, new Color(196, 151, 58)));
+        
+        //Datos de mesa
         card_Mesa1.setData(new Model_Card("MESA 1",new ImageIcon(getClass().getResource("/View/Icon/plusCircle.png"))));
         card_Mesa2.setData(new Model_Card("MESA 2",new ImageIcon(getClass().getResource("/View/Icon/plusCircle.png"))));
         card_Mesa3.setData(new Model_Card("MESA 3",new ImageIcon(getClass().getResource("/View/Icon/plusCircle.png"))));
@@ -48,6 +60,8 @@ public class Page_Mesas extends javax.swing.JPanel {
         card_Mesa10 = new View.Component.Card_Mesa();
         card_Mesa11 = new View.Component.Card_Mesa();
         card_Mesa12 = new View.Component.Card_Mesa();
+        jpEstado = new javax.swing.JPanel();
+        pieChart1 = new View.Swing.PieChart();
 
         setBackground(new java.awt.Color(242, 242, 242));
 
@@ -70,20 +84,43 @@ public class Page_Mesas extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(jLayeredPane1);
 
+        jpEstado.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jpEstadoLayout = new javax.swing.GroupLayout(jpEstado);
+        jpEstado.setLayout(jpEstadoLayout);
+        jpEstadoLayout.setHorizontalGroup(
+            jpEstadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpEstadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pieChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jpEstadoLayout.setVerticalGroup(
+            jpEstadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpEstadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pieChart1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
+                    .addComponent(jpEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                .addComponent(jpEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -104,5 +141,7 @@ public class Page_Mesas extends javax.swing.JPanel {
     private View.Component.Card_Mesa card_Mesa9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jpEstado;
+    private View.Swing.PieChart pieChart1;
     // End of variables declaration//GEN-END:variables
 }

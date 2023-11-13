@@ -2,6 +2,7 @@
 package View.pages;
 
 import Modelo.interfaz.Model_Card;
+import View.Swing.ScrollBarCustom2;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
@@ -13,7 +14,10 @@ public class Page_Home extends javax.swing.JPanel {
         initComponents();
         
         sptabla.getViewport().setBackground(Color.WHITE);
+        sptabla.setVerticalScrollBar(new ScrollBarCustom2());
+        sptabla.getVerticalScrollBar().setBackground(Color.WHITE);
         
+        //Anexion de los datos de las cards
         card1.setData(new Model_Card("Mesas",new ImageIcon(getClass().getResource("/View/Icon/4.png")),"Disponibles","14",
                 new ImageIcon(getClass().getResource("/View/Icon/box2.png")),"Ocupadas","6"));
         card2.setData(new Model_Card("Pedidos",new ImageIcon(getClass().getResource("/View/Icon/3.png")),"Entregados","18",
@@ -30,7 +34,6 @@ public class Page_Home extends javax.swing.JPanel {
         card1 = new View.Component.Card();
         card2 = new View.Component.Card();
         card3 = new View.Component.Card();
-        grafica1 = new View.Component.Grafica();
         sptabla = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -56,7 +59,27 @@ public class Page_Home extends javax.swing.JPanel {
                 {"empleado 1", "salon 1", "activo"},
                 {"empleado 2", "salon 3", "descanso"},
                 {"empleado 3", "salon 3", "activo"},
-                {"empleado 4", "cocina", "activo"}
+                {"empleado 4", "cocina", "activo"},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
                 "Empleado", "Lugar", "Estado"
@@ -73,9 +96,7 @@ public class Page_Home extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(grafica1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(605, 605, 605)
                         .addComponent(sptabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
@@ -86,9 +107,7 @@ public class Page_Home extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(grafica1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sptabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(sptabla, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -98,7 +117,6 @@ public class Page_Home extends javax.swing.JPanel {
     private View.Component.Card card1;
     private View.Component.Card card2;
     private View.Component.Card card3;
-    private View.Component.Grafica grafica1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLayeredPane panel;
     private javax.swing.JScrollPane sptabla;

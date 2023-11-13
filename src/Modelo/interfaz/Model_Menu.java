@@ -6,6 +6,28 @@ import javax.swing.ImageIcon;
 
 public class Model_Menu {
 
+    String icon;
+    String name;
+    MenuType type;
+    
+    public Model_Menu(String icon, String name, MenuType type) {
+        this.icon = icon;
+        this.name = name;
+        this.type = type;
+    }
+
+    public Model_Menu() {
+    }
+    
+    
+    public Icon toIcon(){
+        return new ImageIcon(getClass().getResource("/View/Icon/"+icon+".png"));
+    }
+    
+    public static enum MenuType{
+        TITLE, MENU, EMPTY
+    }
+    
     public String getIcon() {
         return icon;
     }
@@ -28,27 +50,5 @@ public class Model_Menu {
 
     public void setType(MenuType type) {
         this.type = type;
-    }
-
-    public Model_Menu(String icon, String name, MenuType type) {
-        this.icon = icon;
-        this.name = name;
-        this.type = type;
-    }
-
-    public Model_Menu() {
-    }
-    
-    
-    String icon;
-    String name;
-    MenuType type;
-    
-    public Icon toIcon(){
-        return new ImageIcon(getClass().getResource("/View/Icon/"+icon+".png"));
-    }
-    
-    public static enum MenuType{
-        TITLE, MENU, EMPTY
     }
 }

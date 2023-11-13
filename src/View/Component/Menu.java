@@ -29,6 +29,7 @@ public class Menu extends javax.swing.JPanel {
         init();
     }
 
+    //Ingreso de los valores de cada item del menu lateral
     private void init(){
         listMenu2.addItem(new Model_Menu("1","Home",Model_Menu.MenuType.MENU));
         listMenu2.addItem(new Model_Menu("2","Mesas",Model_Menu.MenuType.MENU));
@@ -108,6 +109,7 @@ public class Menu extends javax.swing.JPanel {
     private int x;
     private int y;
     
+    //Obtiene el punto sobre el cual esta posicionado el mouse
     public void initMoving(JFrame frame){
         panelMoving.addMouseListener(new MouseAdapter(){
             @Override
