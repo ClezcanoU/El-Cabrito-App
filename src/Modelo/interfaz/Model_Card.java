@@ -5,13 +5,13 @@ import javax.swing.Icon;
 
 public class Model_Card {
     
-    String Titulo;
-    Icon icon1;
-    String Descripcion1;
-    String Valor1;
-    Icon icon2;
-    String Descripcion2;
-    String Valor2;
+    private String Titulo;
+    private Icon icon1;
+    private String Descripcion1;
+    private String Valor1;
+    private Icon icon2;
+    private String Descripcion2;
+    private String Valor2;
     
     public Model_Card(String Titulo, Icon icon1, String Descripcion1, String Valor1, Icon icon2, String Descripcion2, String Valor2) {
         this.Titulo = Titulo;
