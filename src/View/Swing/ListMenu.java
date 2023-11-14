@@ -4,6 +4,7 @@ package View.Swing;
 import ModelView.MenuSelected;
 import Modelo.interfaz.Model_Menu;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultListCellRenderer;
@@ -66,8 +67,10 @@ public class ListMenu<E extends Object> extends JList<E>{
                         Model_Menu menu = (Model_Menu)o;
                         if(menu.getType()==Model_Menu.MenuType.MENU){
                             overIdenx = index;
+                            setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         }else{
                             overIdenx = -1;
+                            setCursor(Cursor.getDefaultCursor());
                         }
                         repaint();
                     }

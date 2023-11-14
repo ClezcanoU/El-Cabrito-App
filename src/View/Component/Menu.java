@@ -49,6 +49,7 @@ public class Menu extends javax.swing.JPanel {
         listMenu2 = new View.Swing.ListMenu<>();
         jLabel1 = new javax.swing.JLabel();
 
+        panelMoving.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         panelMoving.setOpaque(false);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icon/Logo El Cabrito 2.png"))); // NOI18N

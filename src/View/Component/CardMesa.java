@@ -1,7 +1,7 @@
 
 package View.Component;
 
-import Modelo.interfaz.Model_Card;
+import Modelo.Mesa;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +13,34 @@ public class CardMesa extends javax.swing.JPanel {
 
     private Estado estado = Estado.MANTENIMIENTO;
     private final int shadowSize = 5;
+    private String pedido;
+    private String factura;
+    private String nota;
 
+    public String getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(String pedido) {
+        this.pedido = pedido;
+    }
+
+    public String getFactura() {
+        return factura;
+    }
+
+    public void setFactura(String factura) {
+        this.factura = factura;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+    
     public Estado getEstado() {
         return estado;
     }
@@ -23,9 +50,16 @@ public class CardMesa extends javax.swing.JPanel {
         repaint();
     }
     
-    public void setData(Model_Card data){
-        lbTitulo.setText(data.getTitulo());
-        lbIcon.setIcon(data.getIcon1());
+    public void setData(Mesa mesa){
+        lbTitulo.setText(mesa.getTitulo());
+        lbIcon.setIcon(mesa.getIcon1());
+        this.pedido = mesa.getPedido();
+        this.factura = mesa.getFactura();
+        this.nota = mesa.getNota();
+    }
+    
+    public void setBorderColor(Color color) {
+        setBorder(new javax.swing.border.LineBorder(color, 1, true));
     }
     
     
@@ -81,7 +115,7 @@ public class CardMesa extends javax.swing.JPanel {
         g2.dispose();
     }
 
-    private Color getColorForState(Estado estado) {
+    public Color getColorForState(Estado estado) {
         switch (estado) {
             case LIBRE:
                 return new Color(18, 163, 24);
@@ -93,8 +127,7 @@ public class CardMesa extends javax.swing.JPanel {
                 return Color.BLACK; // Color por defecto
         }
     }
-
-    
+  
     public static enum Estado {
         LIBRE, OCUPADO, MANTENIMIENTO
     }
