@@ -31,9 +31,9 @@ public class Page_Home extends javax.swing.JPanel {
     private void initComponents() {
 
         panel = new javax.swing.JLayeredPane();
-        card1 = new View.Component.Card();
-        card2 = new View.Component.Card();
-        card3 = new View.Component.Card();
+        card1 = new View.Component.CardResumen();
+        card2 = new View.Component.CardResumen();
+        card3 = new View.Component.CardResumen();
         sptabla = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -114,9 +114,9 @@ public class Page_Home extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private View.Component.Card card1;
-    private View.Component.Card card2;
-    private View.Component.Card card3;
+    private View.Component.CardResumen card1;
+    private View.Component.CardResumen card2;
+    private View.Component.CardResumen card3;
     private javax.swing.JTable jTable1;
     private javax.swing.JLayeredPane panel;
     private javax.swing.JScrollPane sptabla;

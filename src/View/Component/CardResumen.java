@@ -8,12 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class Card extends javax.swing.JPanel {
+public class CardResumen extends javax.swing.JPanel {
 
     private Color color1;
     private Color color2;
     
-    public Card() {
+    public CardResumen() {
         initComponents();
         setOpaque(false);
         color1=Color.BLACK;

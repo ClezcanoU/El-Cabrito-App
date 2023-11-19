@@ -31,10 +31,12 @@ public class ModernButton extends JButton {
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 setBackground(hoverColor);
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 setBackground(backgroundColor);
+                setCursor(Cursor.getDefaultCursor());
             }
 
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -43,6 +45,7 @@ public class ModernButton extends JButton {
 
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 setBackground(hoverColor);
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         });
     }

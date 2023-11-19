@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 
-public class Card_Mesa extends javax.swing.JPanel {
+public class Card_MesaELIMINAR extends javax.swing.JPanel {
 
 
     public Color getColor1() {
@@ -30,7 +30,7 @@ public class Card_Mesa extends javax.swing.JPanel {
     private Color color1;
     private Color color2;
     
-    public Card_Mesa() {
+    public Card_MesaELIMINAR() {
         initComponents();
         setOpaque(false);
         color1 = (new Color(238, 184, 104));

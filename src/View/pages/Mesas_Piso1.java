@@ -1,6 +1,7 @@
 
 package View.pages;
 
+import ModelView.BarraUpdate;
 import ModelView.MesaListener;
 import Modelo.Mesa;
 import View.Component.CardMesa;
@@ -19,35 +20,44 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
     private Map<String, CardMesa> mapMesas = new HashMap<>();
     
     private ImageIcon Icon = new ImageIcon(getClass().getResource("/View/Icon/Tenedor.png"));
+    
+    //Instancia para actualizar las progress bar
+    
+    private BarraUpdate barraUpdate;
+
+    public void setBarraUpdate(BarraUpdate barraUpdate) {
+        this.barraUpdate = barraUpdate;
+    }
 
     public Mesas_Piso1() {
         initComponents();
         init();
-        mapMesas.put("#1", cardMesa1);
-        mapMesas.put("#2", cardMesa2);
-        mapMesas.put("#3", cardMesa3);
-        mapMesas.put("#4", cardMesa4);
-        mapMesas.put("#5", cardMesa5);
-        mapMesas.put("#6", cardMesa6);
-        mapMesas.put("#7", cardMesa7);
-        mapMesas.put("#8", cardMesa8);
-        mapMesas.put("#9", cardMesa9);
+        mapMesas.put(cardMesa1.getNumero(), cardMesa1);
+        mapMesas.put(cardMesa2.getNumero(), cardMesa2);
+        mapMesas.put(cardMesa3.getNumero(), cardMesa3);
+        mapMesas.put(cardMesa4.getNumero(), cardMesa4);
+        mapMesas.put(cardMesa5.getNumero(), cardMesa5);
+        mapMesas.put(cardMesa6.getNumero(), cardMesa6);
+        mapMesas.put(cardMesa7.getNumero(), cardMesa7);
+        mapMesas.put(cardMesa8.getNumero(), cardMesa8);
+        mapMesas.put(cardMesa9.getNumero(), cardMesa9);
     }
     
     private void init(){
-        cardMesa1.setData(new Mesa("Mesa #1","1",Icon,"","",""));
-        cardMesa2.setData(new Mesa("Mesa #2","2",Icon,"","",""));
-        cardMesa3.setData(new Mesa("Mesa #3","3",Icon,"","",""));
-        cardMesa4.setData(new Mesa("Mesa #4","4",Icon,"","",""));
-        cardMesa5.setData(new Mesa("Mesa #5","5",Icon,"","",""));
-        cardMesa6.setData(new Mesa("Mesa #6","6",Icon,"","",""));
-        cardMesa7.setData(new Mesa("Mesa #7","7",Icon,"","",""));
-        cardMesa8.setData(new Mesa("Mesa #8","8",Icon,"","",""));
-        cardMesa9.setData(new Mesa("Mesa #9","9",Icon,"","",""));
-        
+        cardMesa1.setDatos(new Mesa("Mesa #1","#1",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa2.setDatos(new Mesa("Mesa #2","#2",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa3.setDatos(new Mesa("Mesa #3","#3",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa4.setDatos(new Mesa("Mesa #4","#4",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa5.setDatos(new Mesa("Mesa #5","#5",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa6.setDatos(new Mesa("Mesa #6","#6",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa7.setDatos(new Mesa("Mesa #7","#7",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa8.setDatos(new Mesa("Mesa #8","#8",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
+        cardMesa9.setDatos(new Mesa("Mesa #9","#9",Mesa.Estado.MANTENIMIENTO,Icon,"","",""));
         agregarMouseListenerACardMesas();
         formMesas = new Form_Mesas();
     }
+    
+    //Agrega un listener para cada card
     
     private void agregarMouseListenerACardMesas() {
         cardMesa1.addMouseListener(crearMouseListener("Mesa #1"));
@@ -61,6 +71,8 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
         cardMesa9.addMouseListener(crearMouseListener("Mesa #9"));
     }
 
+    //MouseListener para cada card
+    
     private MouseListener crearMouseListener(String nombreMesa) {
         return new java.awt.event.MouseAdapter() {
             @Override
@@ -88,11 +100,15 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
         };
     }
     
+    //Muestra los datos de cada card
+    
     private void MostrarDatosMesa(String nombreMesa) {
+        
         String mesa = nombreMesa.split(" ").length > 1 ? nombreMesa.split(" ")[1] : nombreMesa;
         formMesas.setTitulo(mesa);
         CardMesa cardMesa = mapMesas.get(mesa);
         color = cardMesa.getColorForState(cardMesa.getEstado());
+        
         if (cardMesa != null) {
             formMesas.setProductos(cardMesa.getPedido());
             formMesas.setFactura(cardMesa.getFactura());
@@ -107,32 +123,69 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
         formMesas.setLocationRelativeTo(null);
     }
     
-    //limpia la mesa cambiando el estado
+    //Reinicia las progress bar
+    
+    public void reiniciarBarras(){
+        actualizarBarras();
+    }
+    
+    // Cuenta la cantidad de mesas por cada estado
+    
+    public void actualizarBarras(){
+        int totalMesas = mapMesas.size();
+        int mesasLibres = 0;
+        int mesasOcupadas = 0;
+        int mesasMantenimiento = 0;
+        for (CardMesa mesa : mapMesas.values()) {
+            switch (mesa.getEstado()) {
+                case LIBRE:
+                    mesasLibres++;
+                    break;
+                case OCUPADO:
+                    mesasOcupadas++;
+                    break;
+                case MANTENIMIENTO:
+                    mesasMantenimiento++;
+                    break;
+            }
+        }
+        barraUpdate.cantidadPorEstado(totalMesas, mesasLibres, mesasOcupadas, mesasMantenimiento);
+    }
+    
+    
+    //Limpia la mesa cambiando el estado
+    
     @Override
     public void limpiarMesa(String mesa) {
         CardMesa cardMesa = mapMesas.get(mesa);
 
         if (cardMesa != null) {
-            cardMesa.setEstado(CardMesa.Estado.LIBRE);
+            cardMesa.setEstado(Mesa.Estado.LIBRE);
             formMesas.cambiarColor(color);
+            actualizarBarras();
             System.out.println("Limpiando en " + mesa);
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
     }
     
+    //Cambia el estado de la mesa por ocupado
+    
     @Override
     public void ocuparMesa(String mesa) {
         CardMesa cardMesa = mapMesas.get(mesa);
         
         if (cardMesa != null) {
-            cardMesa.setEstado(CardMesa.Estado.OCUPADO);
+            cardMesa.setEstado(Mesa.Estado.OCUPADO);
             formMesas.cambiarColor(color);
+            actualizarBarras();
             System.out.println("Mesa " + mesa + " ocupada");
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
     }
+    
+    //Actualizadores de cada textArea (factura,pedido,notas)
     
     @Override
     public void actualizarFactura(String mesa, String nuevaFactura) {
@@ -158,7 +211,6 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
         }
     }
     
-     
     @Override
     public void actualizarNotas(String mesa, String nuevasNotas) {
       CardMesa cardMesa = mapMesas.get(mesa);
@@ -170,7 +222,6 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
             System.out.println("La mesa " + mesa + " no existe");
         }
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -187,6 +238,7 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
         cardMesa8 = new View.Component.CardMesa();
         cardMesa9 = new View.Component.CardMesa();
 
+        panelMesa.setBackground(new java.awt.Color(242, 242, 242));
         panelMesa.setLayout(new java.awt.GridLayout(3, 3, 20, 50));
         panelMesa.add(cardMesa1);
         panelMesa.add(cardMesa2);
@@ -227,5 +279,4 @@ public class Mesas_Piso1 extends javax.swing.JPanel implements MesaListener{
     private View.Component.CardMesa cardMesa9;
     private View.Swing.PanelBorder panelMesa;
     // End of variables declaration//GEN-END:variables
-
 }

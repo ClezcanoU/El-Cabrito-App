@@ -1,23 +1,38 @@
 package View.pages;
 
 
+import ModelView.BarraUpdate;
+import ModelView.ControlMesas;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class Page_Mesas extends javax.swing.JPanel {
+public class Page_Mesas extends javax.swing.JPanel implements BarraUpdate{
 
+    //Instancias de los paneles de cada piso
+    
     private Mesas_Piso1 piso1;
     private Mesas_Piso2 piso2;
     private Mesas_Terraza terraza;
+    
+    //Variables para las progressBar
+    
+    private int mesasLibre =0;
+    private int mesasOcupadas=0;
+    private int mesasMantenimiento=100;
 
     public Page_Mesas() {
         initComponents();
         init();
 
         piso1 = new Mesas_Piso1();
+        piso1.setBarraUpdate(this);
         piso2 = new Mesas_Piso2();
+        piso2.setBarraUpdate(this);
         terraza = new Mesas_Terraza();
+        terraza.setBarraUpdate(this);
+        
+        //Listener del comboBox de selecion de pisos
         
         ItemListener aListener = new ItemListener() {
             @Override
@@ -29,21 +44,25 @@ public class Page_Mesas extends javax.swing.JPanel {
                         panelMesas.add(piso1);
                         panelMesas.repaint();
                         panelMesas.revalidate();
+                        piso1.actualizarBarras();
                     } else if (index == 0) {
                         panelMesas.removeAll();
                         panelMesas.add(piso1);
                         panelMesas.repaint();
                         panelMesas.revalidate();
+                        piso1.actualizarBarras();
                     } else if (index == 1) {
                         panelMesas.removeAll();
                         panelMesas.add(piso2);
                         panelMesas.repaint();
                         panelMesas.revalidate();
+                        piso2.actualizarBarras();
                     } else if (index == 2) {
                         panelMesas.removeAll();
                         panelMesas.add(terraza);
                         panelMesas.repaint();
                         panelMesas.revalidate();
+                        terraza.actualizarBarras();
                     }
                 }
             }
@@ -54,31 +73,40 @@ public class Page_Mesas extends javax.swing.JPanel {
         panelMesas.add(piso1);
     }
     
-
+    // Inicializador de los items del panel
     private void init() {
-        //Datos grafica
-        /*pieChart1.setChartType(PieChart.PeiChartType.DEFAULT);
-        pieChart1.addData(new ModelPieChart("Tigher", 50, new Color(23, 126, 238)));
-        pieChart1.addData(new ModelPieChart("ABC", 50, new Color(221, 65, 65)));
-        pieChart1.addData(new ModelPieChart("Coca", 50, new Color(47, 157, 64)));
-        pieChart1.addData(new ModelPieChart("Vita", 60, new Color(196, 151, 58)));*/
-        //Datos de barras
-        libresBar.setForeground(new Color(18, 163, 24));
-        libresBar.setValue(40);
-        libresBar.setColorString(new Color(0, 0, 0));
-
-        ocupadasBar.setForeground(new Color(206, 28, 28));
-        ocupadasBar.setValue(30);
-        ocupadasBar.setColorString(new Color(0, 0, 0));
         
-        mantenimientoBar.setForeground(new Color(241, 196, 15));
-        mantenimientoBar.setValue(90);
-        mantenimientoBar.setColorString(new Color(0, 0, 0));
-
+        barProgress();
         //Datos comboBox
         comboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Piso 1", "Piso 2", "Terraza"}));
         comboBox.setSelectedIndex(-1);
         comboBox.setLabeText("Piso");
+    }
+    
+    public void barProgress(){
+        //Datos de barras
+        libresBar.setForeground(new Color(18, 163, 24));
+        libresBar.setValue(mesasLibre);
+        libresBar.setColorString(new Color(0, 0, 0));
+
+        ocupadasBar.setForeground(new Color(206, 28, 28));
+        ocupadasBar.setValue(mesasOcupadas);
+        ocupadasBar.setColorString(new Color(0, 0, 0));
+        
+        mantenimientoBar.setForeground(new Color(241, 196, 15));
+        mantenimientoBar.setValue(mesasMantenimiento);
+        mantenimientoBar.setColorString(new Color(0, 0, 0));
+    }
+    
+    //Llama a la funcion que calcula el porcentaje de las barras
+    @Override
+    public void cantidadPorEstado(int totalMesas, int libres, int ocupadas, int mantenimiento) {
+        System.out.println("mesas: "+totalMesas +" ,libres: "+ libres+ " ,ocupadas: "+ ocupadas+" ,mantenimiento: "+mantenimiento);
+        mesasLibre = ControlMesas.calcularPorcentaje(libres,totalMesas);
+        mesasOcupadas = ControlMesas.calcularPorcentaje(ocupadas,totalMesas);
+        mesasMantenimiento = ControlMesas.calcularPorcentaje(mantenimiento,totalMesas);
+        System.out.println("mesas: "+totalMesas +" ,libres: "+ mesasLibre+ " ,ocupadas: "+ mesasOcupadas+" ,mantenimiento: "+mesasMantenimiento);
+        barProgress();
     }
 
     @SuppressWarnings("unchecked")
@@ -145,7 +173,7 @@ public class Page_Mesas extends javax.swing.JPanel {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        comboBox.setBackground(new java.awt.Color(242, 242, 242));
+        comboBox.setBackground(new java.awt.Color(246, 246, 246));
         comboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboBoxItemStateChanged(evt);

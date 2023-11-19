@@ -11,11 +11,46 @@ import java.awt.RenderingHints;
 
 public class CardMesa extends javax.swing.JPanel {
 
-    private Estado estado = Estado.MANTENIMIENTO;
-    private final int shadowSize = 5;
+    private String numero;
     private String pedido;
     private String factura;
     private String nota;
+    private Mesa.Estado estado = Mesa.Estado.MANTENIMIENTO;
+
+    private final int shadowSize = 5;
+    
+    public CardMesa() {
+        initComponents();
+        setBackground(Color.WHITE);
+    }
+    
+    //Metodo para construir a cardmesa
+    
+    public void setDatos(Mesa mesa){
+        lbTitulo.setText(mesa.getNombre());
+        lbIcon.setIcon(mesa.getImagen());
+        this.numero = mesa.getNumero();
+        this.pedido = mesa.getPedido();
+        this.factura = mesa.getFactura();
+        this.nota = mesa.getNota();
+        this.estado = mesa.getEstado();
+    }
+    
+    //Metodo para cambiar el borde
+    
+    public void setBorderColor(Color color) {
+        setBorder(new javax.swing.border.LineBorder(color, 1, true));
+    }
+    
+    //Getters and Setters
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
 
     public String getPedido() {
         return pedido;
@@ -40,32 +75,14 @@ public class CardMesa extends javax.swing.JPanel {
     public void setNota(String nota) {
         this.nota = nota;
     }
-    
-    public Estado getEstado() {
+
+    public Mesa.Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(Mesa.Estado estado) {
         this.estado = estado;
         repaint();
-    }
-    
-    public void setData(Mesa mesa){
-        lbTitulo.setText(mesa.getTitulo());
-        lbIcon.setIcon(mesa.getIcon1());
-        this.pedido = mesa.getPedido();
-        this.factura = mesa.getFactura();
-        this.nota = mesa.getNota();
-    }
-    
-    public void setBorderColor(Color color) {
-        setBorder(new javax.swing.border.LineBorder(color, 1, true));
-    }
-    
-    
-    public CardMesa() {
-        initComponents();
-        setBackground(Color.WHITE);
     }
 
     @SuppressWarnings("unchecked")
@@ -115,7 +132,9 @@ public class CardMesa extends javax.swing.JPanel {
         g2.dispose();
     }
 
-    public Color getColorForState(Estado estado) {
+    //Metodo para obtener el color para la barra lateral
+    
+    public Color getColorForState(Mesa.Estado estado) {
         switch (estado) {
             case LIBRE:
                 return new Color(18, 163, 24);
@@ -126,10 +145,6 @@ public class CardMesa extends javax.swing.JPanel {
             default:
                 return Color.BLACK; // Color por defecto
         }
-    }
-  
-    public static enum Estado {
-        LIBRE, OCUPADO, MANTENIMIENTO
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

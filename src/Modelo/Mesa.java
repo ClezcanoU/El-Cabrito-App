@@ -3,54 +3,39 @@ package Modelo;
 
 import javax.swing.Icon;
 
-public class Mesa {
-    private int id;
-    private String Titulo;
+public class Mesa  extends ElementoRestaurante{
+    
     private String numero;
-    private Icon icon1;
+    private Estado estado;
     private String pedido;
     private String factura;
     private String nota;
+    
+    public static enum Estado {
+        LIBRE, OCUPADO, MANTENIMIENTO
+    }
 
-    public Mesa(int id, String Titulo, String numero, Icon icon1, String pedido, String factura, String nota) {
-        this.id = id;
-        this.Titulo = Titulo;
+    //Constructores
+    
+    public Mesa(String numero, Estado estado, String pedido, String factura, String nota, int id, String codigo, String nombre, Icon imagen) {
+        super(id, nombre, imagen);
         this.numero = numero;
-        this.icon1 = icon1;
+        this.estado = estado;
         this.pedido = pedido;
         this.factura = factura;
         this.nota = nota;
     }
 
-    public Mesa(String Titulo, String numero, Icon icon1, String pedido, String factura, String nota) {
-        this.Titulo = Titulo;
+    public Mesa(String nombre, String numero, Estado estado ,Icon imagen, String pedido, String factura, String nota) {
+        super(imagen, nombre);
         this.numero = numero;
-        this.icon1 = icon1;
+        this.estado = estado;
         this.pedido = pedido;
         this.factura = factura;
         this.nota = nota;
     }
-
-    public Mesa(String Titulo, Icon icon1) {
-        this.Titulo = Titulo;
-        this.icon1 = icon1;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return Titulo;
-    }
-
-    public void setTitulo(String Titulo) {
-        this.Titulo = Titulo;
-    }
+    
+    //Getters and Setters
 
     public String getNumero() {
         return numero;
@@ -60,12 +45,12 @@ public class Mesa {
         this.numero = numero;
     }
 
-    public Icon getIcon1() {
-        return icon1;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setIcon1(Icon icon1) {
-        this.icon1 = icon1;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public String getPedido() {
@@ -91,6 +76,7 @@ public class Mesa {
     public void setNota(String nota) {
         this.nota = nota;
     }
+    
     
     
 }

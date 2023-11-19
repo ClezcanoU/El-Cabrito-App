@@ -75,11 +75,21 @@ public class HeaderMoving extends javax.swing.JPanel {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(color);
-        g2.fillRoundRect(panelMoving.getX(), panelMoving.getY(), panelMoving.getWidth(), panelMoving.getHeight(), 15, 15);
-        g2.fillRect(panelMoving.getX(), panelMoving.getY(), 25, panelMoving.getHeight());
-        g2.fillRect(panelMoving.getX() + panelMoving.getWidth() - 25, panelMoving.getY() + panelMoving.getHeight() - 25, 25, 25);
-        super.paintComponent(g);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+        g2.fillRect(0, 0, 25, getHeight());
+        g2.fillRect(getWidth()-25, getHeight()-25, getWidth(), getHeight());
+        super.paintComponent(g); 
     }
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        Graphics2D g2 = (Graphics2D)g;
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//        g2.setColor(color);
+//        g2.fillRoundRect(panelMoving.getX(), panelMoving.getY(), panelMoving.getWidth(), panelMoving.getHeight(), 15, 15);
+//        g2.fillRect(panelMoving.getX(), panelMoving.getY(), 25, panelMoving.getHeight());
+//        g2.fillRect(panelMoving.getX() + panelMoving.getWidth() - 25, panelMoving.getY() + panelMoving.getHeight() - 25, 25, 25);
+//        super.paintComponent(g);
+//    }
     
     private int x;
     private int y;

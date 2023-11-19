@@ -9,12 +9,12 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 
 
-public class CardMenu extends javax.swing.JPanel {
+public class CardMenuELIMINAR extends javax.swing.JPanel {
     
     private String nombre;
     private Icon imagen;
 
-    public CardMenu() {
+    public CardMenuELIMINAR() {
         initComponents();
     }
 
@@ -23,8 +23,8 @@ public class CardMenu extends javax.swing.JPanel {
     }
 
     public void setNombre(String nombre) {
-        jNombre.setText(nombre);
         this.nombre = nombre;
+        jNombre.setText(nombre);
     }
 
     public Icon getImagen() {
@@ -32,8 +32,8 @@ public class CardMenu extends javax.swing.JPanel {
     }
 
     public void setImagen(Icon imagen) {
-        jImagen.setIcon(imagen);
         this.imagen = imagen;
+        jImagen.setIcon(imagen);
     }
 
     

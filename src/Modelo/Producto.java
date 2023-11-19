@@ -3,61 +3,30 @@ package Modelo;
 
 import javax.swing.Icon;
 
-public class Producto {
-    private int id;
-    private String codigo;
-    private String nombre;
-    private Icon imagen;
+public class Producto extends ElementoRestaurante{
+    
     private int cantidad;
     private double precio;
+    private String codigo;
+    private String categoria;
+    
+    //Constructores
 
-    public Producto(int id, String codigo, String nombre, Icon imagen, int cantidad, double precio) {
-        this.id = id;
+    public Producto(int cantidad, double precio, int id, String codigo, String nombre, Icon imagen) {
+        super(id, nombre, imagen);
+        this.cantidad = cantidad;
+        this.precio = precio;
+    }   
+
+    public Producto(String nombre, String codigo, String categoria, int cantidad, double precio) {
+        super(nombre);
         this.codigo = codigo;
-        this.nombre = nombre;
-        this.imagen = imagen;
+        this.categoria = categoria;
         this.cantidad = cantidad;
         this.precio = precio;
     }
-
-    public Producto(String nombre, Icon imagen, int cantidad, double precio) {
-        this.nombre = nombre;
-        this.imagen = imagen;
-        this.cantidad = cantidad;
-        this.precio = precio;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Icon getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Icon imagen) {
-        this.imagen = imagen;
-    }
+    
+    //Getters and Setters
 
     public int getCantidad() {
         return cantidad;
@@ -75,10 +44,22 @@ public class Producto {
         this.precio = precio;
     }
 
-
-    @Override
-    public String toString() {
-        return "Producto{" + "nombre=" + nombre + ", imagen=" + imagen + ", cantidad=" + cantidad + ", precio=" + precio + '}';
+    public String getCodigo() {
+        return codigo;
     }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    
+    
 }
