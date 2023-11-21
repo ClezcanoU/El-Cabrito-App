@@ -3,6 +3,8 @@ package View.pages;
 
 import ModelView.BarraUpdate;
 import ModelView.ControlMesas;
+import View.Component.Notificacion;
+import View.Main;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -15,13 +17,16 @@ public class Page_Mesas extends javax.swing.JPanel implements BarraUpdate{
     private Mesas_Piso2 piso2;
     private Mesas_Terraza terraza;
     
+    private Main main;
+    
     //Variables para las progressBar
     
     private int mesasLibre =0;
     private int mesasOcupadas=0;
     private int mesasMantenimiento=100;
 
-    public Page_Mesas() {
+    public Page_Mesas(Main mainRecibido) {
+        this.main = mainRecibido;
         initComponents();
         init();
 
@@ -101,12 +106,17 @@ public class Page_Mesas extends javax.swing.JPanel implements BarraUpdate{
     //Llama a la funcion que calcula el porcentaje de las barras
     @Override
     public void cantidadPorEstado(int totalMesas, int libres, int ocupadas, int mantenimiento) {
-        System.out.println("mesas: "+totalMesas +" ,libres: "+ libres+ " ,ocupadas: "+ ocupadas+" ,mantenimiento: "+mantenimiento);
         mesasLibre = ControlMesas.calcularPorcentaje(libres,totalMesas);
         mesasOcupadas = ControlMesas.calcularPorcentaje(ocupadas,totalMesas);
         mesasMantenimiento = ControlMesas.calcularPorcentaje(mantenimiento,totalMesas);
-        System.out.println("mesas: "+totalMesas +" ,libres: "+ mesasLibre+ " ,ocupadas: "+ mesasOcupadas+" ,mantenimiento: "+mesasMantenimiento);
         barProgress();
+    }
+    
+    //Muestra el mensaje de la orden agregada
+    @Override
+    public void mensajeNotificacion(){
+        Notificacion panel = new Notificacion(main, Notificacion.Type.SUCCESS, Notificacion.Location.BOTTOM_RIGHT, "Nuevo Pedido Ingresado desde Mesas");
+        panel.showNotification();
     }
 
     @SuppressWarnings("unchecked")

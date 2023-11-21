@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
@@ -20,6 +19,8 @@ public class CardProducto extends javax.swing.JPanel {
     private String nombre;
     private double precio;
     private int cantidad;
+    private String codigo;
+    private String categoria;
     
     private ActionListener buttonListener;
     private ChangeListener spinnerChangeListener;
@@ -29,25 +30,10 @@ public class CardProducto extends javax.swing.JPanel {
     public CardProducto() {
         initComponents();
         jsCantidad.setModel(spinnerModel);
-        jbAgregar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Acción al hacer clic en el botón
-                System.out.println("Nombre del producto en la clase: " + nombre + ", Cantidad: " + cantidad + ", Precio: "+precio);
-
-                // Llamar al ActionListener proporcionado desde la clase que crea las cards
-                if (buttonListener != null) {
-                    buttonListener.actionPerformed(e);
-                }
-            }
-        });
-        
         jsCantidad.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 cantidad = (int) jsCantidad.getValue();
-                // Puedes realizar acciones adicionales cuando cambia el valor del JSpinner
-                System.out.println("Cantidad cambiada en la clase: " + cantidad);
             }
         });
     }
@@ -58,6 +44,7 @@ public class CardProducto extends javax.swing.JPanel {
         jlNombre.setText(producto.getNombre());
         this.nombre = producto.getNombre();
         this.precio = producto.getPrecio();
+        this.codigo = producto.getCodigo();
     }
     
     //Getters and Setters
@@ -86,7 +73,22 @@ public class CardProducto extends javax.swing.JPanel {
         jsCantidad.setValue(cantidad);
         this.cantidad = cantidad;
     }
-    
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
     
     public void setButtonListener(ActionListener listener) {
         jbAgregar.addActionListener(listener);

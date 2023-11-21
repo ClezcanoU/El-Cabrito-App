@@ -2,38 +2,59 @@
 package Modelo;
 
 import java.sql.Timestamp;
-import javax.swing.Icon;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pedido extends ElementoRestaurante{
     
     private Timestamp fecha;
+    private String codigo;
     private String cliente;
-    private int tipo;
-    private String estado;
-    private String productos;
+    private TIPO tipo;
+    private Estado estado;
+    private List<Producto> listaProductos = new ArrayList<>();
+    
+    
+    public static enum TIPO {
+        LOCAL, ENVIO
+    }
+    
+    public static enum Estado {
+        REALIZADO, PENDIENTE, ENPROCESO
+    }
 
     //Constructores
     
-    public Pedido(Timestamp fecha, String cliente, int tipo, String estado, String productos, int id) {
+    public Pedido(Timestamp fecha, String cliente, TIPO tipo, int id) {
         super(id);
         this.fecha = fecha;
         this.cliente = cliente;
         this.tipo = tipo;
+    }
+
+    public Pedido(String codigo, String cliente, TIPO tipo, Estado estado) {
+        this.codigo = codigo;
+        this.cliente = cliente;
+        this.tipo = tipo;
         this.estado = estado;
-        this.productos = productos;
     }
-
-    public Pedido() {
-    }
-
-    //Getters and Setters
     
+    //Getters and Setters
+
     public Timestamp getFecha() {
         return fecha;
     }
 
     public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getCliente() {
@@ -44,28 +65,30 @@ public class Pedido extends ElementoRestaurante{
         this.cliente = cliente;
     }
 
-    public int getTipo() {
+    public TIPO getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(TIPO tipo) {
         this.tipo = tipo;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
-    public String getProductos() {
-        return productos;
+    public List<Producto> getListaProductos() {
+        return listaProductos;
     }
 
-    public void setProductos(String productos) {
-        this.productos = productos;
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
     }
     
+    
+
 }

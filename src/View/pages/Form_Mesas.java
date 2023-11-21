@@ -1,19 +1,43 @@
 
 package View.pages;
 
+import ModelView.ControlMesas;
+import ModelView.InfoUpdate;
 import ModelView.MesaListener;
+import Modelo.Producto;
+import View.Component.Notificacion;
+import View.Swing.ScrollBarCustom2;
 import java.awt.Color;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class Form_Mesas extends javax.swing.JFrame {
+public class Form_Mesas extends javax.swing.JFrame implements InfoUpdate{
 
     private String titulo;
     private String factura;
     private String productos;
     private String notas;
     
+    private List<Producto> listaProductos = new ArrayList<>();
+    
+    private int index=1;
+    
+    //Variables para obtener la fecha y hora
+    LocalDateTime now = LocalDateTime.now();
+    DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss a");
+    DateTimeFormatter formatterFecha = DateTimeFormatter.ofPattern("EEEE dd-MM-yyyy");
+
+    //Establece e formato de la fecha y hora
+    String horaActual = now.format(formatterHora);
+    String fechaActual = now.format(formatterFecha).substring(0, 1).toUpperCase() + now.format(formatterFecha).substring(1);
+    
     private Form_TomarOrden tomarOrden;
 
+    //Getters and Setters
+    
     public String getTitulo() {
         return titulo;
     }
@@ -33,6 +57,14 @@ public class Form_Mesas extends javax.swing.JFrame {
     public void setNotas(String notas) {
         jtNotas.setText(notas);
     }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
     
     private MesaListener mesaListener;
     
@@ -40,12 +72,31 @@ public class Form_Mesas extends javax.swing.JFrame {
         this.mesaListener = listener;
     }
    
-    
+    //Constructor
     public Form_Mesas() {
         initComponents();
-        headerMoving.initMoving(Form_Mesas.this);
+        headerMoving.initMoving(Form_Mesas.this);//LLamado para poder mover el frame
         tomarOrden = new Form_TomarOrden();
+        tomarOrden.setInfoUpdate(this);
+        
+        //Configuracion a los srolls agrego el personalizado
+        
+        jScrollFactura.getViewport().setBackground(Color.WHITE);
+        jScrollFactura.setVerticalScrollBar(new ScrollBarCustom2());
+        jScrollFactura.getVerticalScrollBar().setBackground(Color.WHITE);
+        jScrollFactura.setHorizontalScrollBar(new ScrollBarCustom2());
+        jScrollFactura.getHorizontalScrollBar().setBackground(Color.WHITE);
+        
+        jScrollProductos.getViewport().setBackground(Color.WHITE);
+        jScrollProductos.setVerticalScrollBar(new ScrollBarCustom2());
+        jScrollProductos.getVerticalScrollBar().setBackground(Color.WHITE);
+        
+        jScrollNotas.getViewport().setBackground(Color.WHITE);
+        jScrollNotas.setVerticalScrollBar(new ScrollBarCustom2());
+        jScrollNotas.getVerticalScrollBar().setBackground(Color.WHITE);
     }
+    
+    //Metodo para cambiar el color del header
     
     public void cambiarColor(Color color){
         headerMoving.setColor(color);
@@ -53,14 +104,52 @@ public class Form_Mesas extends javax.swing.JFrame {
         repaint();
     }
     
-    public void Factura(){
-        jtFactura.setText("************ El Cabrito ************\n"
-                +"Hora: "+"9:20pm"+" Fecha: "+"17/6/2023"+"\n"
-                +"************************************************");
+    //Metodo para actualizar los textarea
+    public void actualizarCard(){
+        jtFactura.setText("╔═════════════  El Cabrito  ════════════╗\n"
+                + "║  Hora: " + horaActual + "       `Dia: " + fechaActual + "      ║\n"
+                +"╠════════════════════════════════ ╣\n"
+                +"║        Nombre Item:                     "+"`Precio($)                         ║\n"
+                +"║════════════════════════════════ ║"
+        );
+        jtProductos.setText("╔═══════════════  El  Cabrito  ═══════════════╗\n"
+                +"╠ ═════════════════════════════════════ ╣\n"
+                +"║        Nombre Item:                                            "+"`Cantidad                  ║\n"
+                +"║ ═════════════════════════════════════ ║"
+        );
+        jtNotas.setText("╔═══════════════════════  El  Cabrito  ══════════════════════╗\n");
+        
+        //Agrega los productos al pedido y la factura
+        
+        for (Producto producto : listaProductos) {
+            String textFactura = "║   " + index+". "+producto.getNombre()+" x"+producto.getCantidad()+"\t"+(int)producto.getPrecio();
+            String textPedido = "║   " + index+". "+producto.getNombre()+"\t\t"+producto.getCantidad();
+            jtFactura.setText(jtFactura.getText()+"\n"+textFactura);
+            jtProductos.setText(jtProductos.getText()+"\n"+textPedido);
+            index++;
+        }
+        index=1;
+        
+        //Agrega el total a pagar a la factura
+        
+        jtProductos.setText(jtProductos.getText()+"\n║\n╚ ═════════════════════════════════════ ╝");
+        double totalFactura = ControlMesas.calcularFactura(listaProductos);
+        jtFactura.setText(jtFactura.getText()+"\n╠════════════════════════════════╣");
+        jtFactura.setText(jtFactura.getText()+"\n"+"║"+"\n"+"║   Total a Pagar:"+"                      "+"\t"+(int)totalFactura);
+        jtFactura.setText(jtFactura.getText()+"\n╚════════════════════════════════╝");
+        repaint();
     }
     
-
-
+    //Actualiza la informacion de la lista de productos
+    
+    @Override
+    public void actualizarInfo(List<Producto> listaP) {
+        listaProductos = listaP;
+        actualizarCard();
+        Notificacion panel = new Notificacion(Form_Mesas.this, Notificacion.Type.SUCCESS, Notificacion.Location.TOP_CENTER, "Orden seleccionada, confirme antes de cerrar");
+        panel.showNotification();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -93,14 +182,18 @@ public class Form_Mesas extends javax.swing.JFrame {
         Titulo.setText("#1");
 
         jtFactura.setColumns(20);
+        jtFactura.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jtFactura.setRows(5);
         jScrollFactura.setViewportView(jtFactura);
 
         jtNotas.setColumns(20);
+        jtNotas.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jtNotas.setLineWrap(true);
         jtNotas.setRows(5);
         jScrollNotas.setViewportView(jtNotas);
 
         jtProductos.setColumns(20);
+        jtProductos.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jtProductos.setRows(5);
         jScrollProductos.setViewportView(jtProductos);
 
@@ -133,6 +226,11 @@ public class Form_Mesas extends javax.swing.JFrame {
         });
 
         jbImprimir.setText("Imprimir");
+        jbImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbImprimirActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -161,17 +259,17 @@ public class Form_Mesas extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                             .addComponent(jbImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelBorder1Layout.createSequentialGroup()
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addGap(223, 223, 223)
+                                        .addGap(172, 172, 172)
                                         .addComponent(jbConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addGap(88, 88, 88)
+                                        .addGap(37, 37, 37)
                                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jbCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,13 +277,10 @@ public class Form_Mesas extends javax.swing.JFrame {
                                                 .addComponent(jScrollNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(0, 31, Short.MAX_VALUE))
                             .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addGap(105, 105, 105)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addGap(156, 156, 156)
-                                        .addComponent(jScrollProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jScrollProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -247,11 +342,13 @@ public class Form_Mesas extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCerrarActionPerformed
 
     private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        //Limpiar todo el panel
         if (mesaListener != null) {
             mesaListener.limpiarMesa(Titulo.getText());
             jtFactura.setText("");
             jtNotas.setText("");
             jtProductos.setText("");
+            //AQUI TOCA ES ENVIARLO A UNA FUNCION QUE LO GUARDE EN LA BASE DE DATOS
             mesaListener.actualizarNotas(Titulo.getText(), jtNotas.getText());
             mesaListener.actualizarProductos(Titulo.getText(), jtProductos.getText());
             mesaListener.actualizarFactura(Titulo.getText(), jtFactura.getText());
@@ -259,6 +356,7 @@ public class Form_Mesas extends javax.swing.JFrame {
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
     private void jbTomarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTomarPedidoActionPerformed
+        //Abre el form para tomar el pedido
         if (mesaListener != null) {
             mesaListener.ocuparMesa(Titulo.getText());
             tomarOrden.setVisible(true);
@@ -266,14 +364,22 @@ public class Form_Mesas extends javax.swing.JFrame {
     }//GEN-LAST:event_jbTomarPedidoActionPerformed
 
     private void jbConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfirmarActionPerformed
+        //Confirma la orden y la envia
         if (mesaListener != null) {
             mesaListener.ocuparMesa(Titulo.getText());
             mesaListener.actualizarNotas(Titulo.getText(), jtNotas.getText());
             mesaListener.actualizarProductos(Titulo.getText(), jtProductos.getText());
             mesaListener.actualizarFactura(Titulo.getText(), jtFactura.getText());
+            mesaListener.mensajeNotificacion();
+            dispose();
         }
     }//GEN-LAST:event_jbConfirmarActionPerformed
 
+    private void jbImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImprimirActionPerformed
+        //Sale el mensaje para imprimir
+        Notificacion panel = new Notificacion(Form_Mesas.this, Notificacion.Type.INFO, Notificacion.Location.BOTTOM_LEFT, "Conectar Impresora Primero");
+        panel.showNotification();
+    }//GEN-LAST:event_jbImprimirActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

@@ -25,13 +25,13 @@ public class PedidoDAO {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Pedido pedido = new Pedido();
-                pedido.setId(resultSet.getInt("ID"));
-                pedido.setFecha(resultSet.getTimestamp("FECHA"));
-                pedido.setCliente(resultSet.getString("CLIENTE"));
-                pedido.setTipo(resultSet.getInt("TIPO"));
-                pedido.setEstado(resultSet.getString("ESTADO"));
-                pedidos.add(pedido);
+//                Pedido pedido = new Pedido();
+//                pedido.setId(resultSet.getInt("ID"));
+//                pedido.setFecha(resultSet.getTimestamp("FECHA"));
+//                pedido.setCliente(resultSet.getString("CLIENTE"));
+//                pedido.setTipo(resultSet.getInt("TIPO"));
+//                pedido.setEstado(resultSet.getString("ESTADO"));
+//                pedidos.add(pedido);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,8 +46,8 @@ public class PedidoDAO {
         try (PreparedStatement statement = sqlConexion.getConectarDB().prepareStatement(consulta)) {
             statement.setTimestamp(1, pedido.getFecha());
             statement.setString(2, pedido.getCliente());
-            statement.setInt(3, pedido.getTipo());
-            statement.setString(4, pedido.getEstado());
+//            statement.setInt(3, pedido.getTipo());
+//            statement.setString(4, pedido.getEstado());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,8 +60,8 @@ public class PedidoDAO {
         try (PreparedStatement statement = sqlConexion.getConectarDB().prepareStatement(consulta)) {
             statement.setTimestamp(1, pedido.getFecha());
             statement.setString(2, pedido.getCliente());
-            statement.setInt(3, pedido.getTipo());
-            statement.setString(4, pedido.getEstado());
+//            statement.setInt(3, pedido.getTipo());
+//            statement.setString(4, pedido.getEstado());
             statement.setInt(5, pedido.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

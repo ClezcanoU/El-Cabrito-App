@@ -75,7 +75,6 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         return new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                System.out.println("Clic en " + nombreMesa);
                 MostrarDatosMesa(nombreMesa);
             }
             @Override
@@ -160,7 +159,6 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
             cardMesa.setEstado(Mesa.Estado.LIBRE);
             formMesas.cambiarColor(color);
             actualizarBarras();
-            System.out.println("Limpiando en " + mesa);
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
@@ -176,10 +174,15 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
             cardMesa.setEstado(Mesa.Estado.OCUPADO);
             formMesas.cambiarColor(color);
             actualizarBarras();
-            System.out.println("Mesa " + mesa + " ocupada");
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
+    }
+    
+    //Mostrar mensaje segun el tipo
+    @Override
+    public void mensajeNotificacion(){
+        barraUpdate.mensajeNotificacion();
     }
     
     //Actualizadores de cada textArea (factura,pedido,notas)
@@ -190,7 +193,6 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         
         if (cardMesa != null) {
             cardMesa.setFactura(nuevaFactura);
-            System.out.println("Factura " + mesa + " actualizada");
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
@@ -202,7 +204,6 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         
         if (cardMesa != null) {
             cardMesa.setPedido(nuevosProductos);
-            System.out.println("Pedido " + mesa + " actualizado");
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }
@@ -214,7 +215,6 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         
         if (cardMesa != null) {
             cardMesa.setNota(nuevasNotas);
-            System.out.println("Nota " + mesa + " actualizado");
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }

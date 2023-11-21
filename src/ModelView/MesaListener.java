@@ -8,4 +8,5 @@ public interface MesaListener {
     void actualizarFactura(String mesa, String nuevaFactura);
     void actualizarProductos(String mesa, String nuevosProductos);
     void actualizarNotas(String mesa, String nuevasNotas);
+    void mensajeNotificacion();
 }
