@@ -11,6 +11,20 @@ public class ModernButton extends JButton {
     private Color hoverColor;
     private Color pressedColor;
 
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setHoverColor(Color hoverColor) {
+        this.hoverColor = hoverColor;
+    }
+
+    public void setPressedColor(Color pressedColor) {
+        this.pressedColor = pressedColor;
+    }
+    
+    
+
     public ModernButton() {
         setFocusPainted(false);
         setContentAreaFilled(false);

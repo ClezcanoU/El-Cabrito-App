@@ -27,8 +27,8 @@ public class Main extends javax.swing.JFrame {
         setBackground(new Color(0,0,0,0));
         //Declaracion de las paginas del menu
         home = new Page_Home();
-        mesas = new Page_Mesas(this);
         pedidos = new Page_Pedidos();
+        mesas = new Page_Mesas(this,pedidos);
         inventario = new Page_Inventario();
         metricas = new Page_Metricas();
         

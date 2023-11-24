@@ -25,16 +25,16 @@ public class Page_Mesas extends javax.swing.JPanel implements BarraUpdate{
     private int mesasOcupadas=0;
     private int mesasMantenimiento=100;
 
-    public Page_Mesas(Main mainRecibido) {
+    public Page_Mesas(Main mainRecibido,Page_Pedidos pagePedidos) {
         this.main = mainRecibido;
         initComponents();
         init();
 
-        piso1 = new Mesas_Piso1();
+        piso1 = new Mesas_Piso1(pagePedidos);
         piso1.setBarraUpdate(this);
-        piso2 = new Mesas_Piso2();
+        piso2 = new Mesas_Piso2(pagePedidos);
         piso2.setBarraUpdate(this);
-        terraza = new Mesas_Terraza();
+        terraza = new Mesas_Terraza(pagePedidos);
         terraza.setBarraUpdate(this);
         
         //Listener del comboBox de selecion de pisos

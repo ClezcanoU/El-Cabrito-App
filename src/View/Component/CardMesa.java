@@ -2,10 +2,13 @@
 package View.Component;
 
 import Modelo.Mesa;
+import Modelo.Producto;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -15,6 +18,8 @@ public class CardMesa extends javax.swing.JPanel {
     private String pedido;
     private String factura;
     private String nota;
+    private String nombre;
+    private List<Producto> listaProductos = new ArrayList<>();
     private Mesa.Estado estado = Mesa.Estado.MANTENIMIENTO;
 
     private final int shadowSize = 5;
@@ -29,6 +34,7 @@ public class CardMesa extends javax.swing.JPanel {
     public void setDatos(Mesa mesa){
         lbTitulo.setText(mesa.getNombre());
         lbIcon.setIcon(mesa.getImagen());
+        this.nombre = mesa.getNombre();
         this.numero = mesa.getNumero();
         this.pedido = mesa.getPedido();
         this.factura = mesa.getFactura();
@@ -43,6 +49,14 @@ public class CardMesa extends javax.swing.JPanel {
     }
     
     //Getters and Setters
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public String getNumero() {
         return numero;
@@ -84,6 +98,16 @@ public class CardMesa extends javax.swing.JPanel {
         this.estado = estado;
         repaint();
     }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

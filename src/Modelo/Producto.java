@@ -60,6 +60,10 @@ public class Producto extends ElementoRestaurante{
         this.categoria = categoria;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Producto{" + "cantidad=" + cantidad + ", precio=" + precio + ", codigo=" + codigo + ", categoria=" + categoria + '}';
+    }
+
     
 }

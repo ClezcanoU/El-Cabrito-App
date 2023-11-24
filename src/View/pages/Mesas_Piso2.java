@@ -4,23 +4,30 @@ package View.pages;
 import ModelView.BarraUpdate;
 import ModelView.MesaListener;
 import Modelo.Mesa;
+import Modelo.Pedido;
+import Modelo.Producto;
 import View.Component.CardMesa;
+import View.Component.CardPedido;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
 
 public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
 
     private Form_Mesas formMesas;
+    private Page_Pedidos pagePedidos;
     private Color color;
     
     private Map<String, CardMesa> mapMesas = new HashMap<>();
     
     private ImageIcon Icon = new ImageIcon(getClass().getResource("/View/Icon/Tenedor.png"));
 
+    private int contador = 0;
+    
     //Instancia para actualizar las progress bar
     
     private BarraUpdate barraUpdate;
@@ -29,8 +36,9 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         this.barraUpdate = barraUpdate;
     }
 
-    public Mesas_Piso2() {
+    public Mesas_Piso2(Page_Pedidos pagePedidos) {
         initComponents();
+        this.pagePedidos = pagePedidos;
         init();
         mapMesas.put(cardMesa1.getNumero(), cardMesa1);
         mapMesas.put(cardMesa2.getNumero(), cardMesa2);
@@ -149,6 +157,14 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         barraUpdate.cantidadPorEstado(totalMesas, mesasLibres, mesasOcupadas, mesasMantenimiento);
     }
     
+    //Genera un codigo unico para identificar el pedido
+    
+    public String generarCodigo() {
+        contador++;
+        // Formatea el contador como una cadena con ceros a la izquierda y lo concatena con "#"
+        return String.format("#%04d", contador)+"p2";
+    }
+    
     //Limpia la mesa cambiando el estado
     
     @Override
@@ -164,10 +180,10 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
         }
     }
     
-    //Cambia el estado de la mesa por ocupado
+    //Cambia el estado de la mesa por ocupado y envia el pedido si se confirma
     
     @Override
-    public void ocuparMesa(String mesa) {
+    public void ocuparMesa(String mesa, Boolean enviarPedido, List<Producto> listaProducts) {
         CardMesa cardMesa = mapMesas.get(mesa);
         
         if (cardMesa != null) {
@@ -176,6 +192,20 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
             actualizarBarras();
         } else {
             System.out.println("La mesa " + mesa + " no existe");
+        }
+        
+        if (enviarPedido == true){
+            String codigo;
+            codigo = generarCodigo();
+            CardPedido cardPedido = new CardPedido();
+            Pedido pedido = new Pedido(codigo, cardMesa.getNombre(),Pedido.TIPO.LOCAL,Pedido.Estado.PENDIENTE,cardMesa.getNota());
+            pedido.setPedido(cardMesa.getPedido());
+            pedido.setListaProductos(listaProducts);
+            cardPedido.setDatos(pedido);
+            pagePedidos.mapMesasPedidos.put(cardMesa.getNombre(), cardPedido);
+            pagePedidos.limpiarForm(1);
+        } else if(enviarPedido == false){
+            
         }
     }
     
@@ -199,11 +229,12 @@ public class Mesas_Piso2 extends javax.swing.JPanel implements MesaListener{
     }
     
     @Override
-    public void actualizarProductos(String mesa, String nuevosProductos) {
+    public void actualizarProductos(String mesa, String nuevosProductos, List<Producto> listaProductos) {
       CardMesa cardMesa = mapMesas.get(mesa);
         
         if (cardMesa != null) {
             cardMesa.setPedido(nuevosProductos);
+            cardMesa.setListaProductos(listaProductos);
         } else {
             System.out.println("La mesa " + mesa + " no existe");
         }

@@ -28,7 +28,7 @@ public class Form_TomarOrden extends javax.swing.JFrame {
     private List<CardProducto> listaCards = new ArrayList<>();
     private List<Producto> listaProductos = new ArrayList<>();
     private Form_Mesas mesas;
-    
+
     private int index=1;
     
     //Variables para obtener la fecha y hora
@@ -253,7 +253,6 @@ public class Form_TomarOrden extends javax.swing.JFrame {
 
         jtPedido.setColumns(20);
         jtPedido.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jtPedido.setLineWrap(true);
         jtPedido.setRows(5);
         jsPedido.setViewportView(jtPedido);
 

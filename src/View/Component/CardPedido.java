@@ -8,8 +8,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.ChangeListener;
 
 public class CardPedido extends javax.swing.JPanel {
 
@@ -17,9 +19,13 @@ public class CardPedido extends javax.swing.JPanel {
     
     private String codigo;
     private String cliente;
+    private String pedido;
     private Pedido.TIPO tipo = Pedido.TIPO.LOCAL;
     private Pedido.Estado estado = Pedido.Estado.ENPROCESO;
     private List<Producto> listaProductos = new ArrayList<>();
+    private String notas;
+    
+    private ActionListener buttonListener;
     
     public CardPedido() {
         initComponents();
@@ -33,6 +39,8 @@ public class CardPedido extends javax.swing.JPanel {
         this.tipo = pedido.getTipo();
         this.estado = pedido.getEstado();
         this.listaProductos = pedido.getListaProductos();
+        this.notas = pedido.getNotas();
+        this.pedido = pedido.getPedido();
         jlCliente.setText(cliente);
     }
 
@@ -77,6 +85,24 @@ public class CardPedido extends javax.swing.JPanel {
         repaint();
     }
 
+    public String getNotas() {
+        return notas;
+    }
+
+    public void setNotas(String notas) {
+        this.notas = notas;
+    }
+
+    public String getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(String pedido) {
+        this.pedido = pedido;
+    }
+    
+    
+    
     public List<Producto> getListaProductos() {
         return listaProductos;
     }
@@ -84,6 +110,13 @@ public class CardPedido extends javax.swing.JPanel {
     public void setListaProductos(List<Producto> listaProductos) {
         this.listaProductos = listaProductos;
     }
+
+    public void setButtonListener(ActionListener buttonListener) {
+        jbEliminar.addActionListener(buttonListener);
+        this.buttonListener = buttonListener;
+    }
+    
+    
     
     
     @SuppressWarnings("unchecked")
@@ -145,8 +178,12 @@ public class CardPedido extends javax.swing.JPanel {
                 return Color.BLACK; // Color por defecto
         }
     }
-    
 
+    @Override
+    public String toString() {
+        return "CardPedido{" + "codigo=" + codigo + ", cliente=" + cliente + ", tipo=" + tipo + ", estado=" + estado + ", listaProductos=" + listaProductos + ", notas=" + notas + '}';
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Swing.ModernButton jbEliminar;
     private javax.swing.JLabel jlCliente;

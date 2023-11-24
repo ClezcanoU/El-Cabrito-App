@@ -1,6 +1,7 @@
 
 package View.pages;
 
+import ModelView.PedidoListener;
 import Modelo.Pedido;
 import Modelo.Pedido.Estado;
 import Modelo.Pedido.TIPO;
@@ -8,25 +9,115 @@ import View.Component.CardPedido;
 import View.Swing.ScrollBarCustom2;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
-public class Page_Pedidos extends javax.swing.JPanel {
-
-    List<CardPedido> listaDomicilios = new ArrayList<>();
-    List<CardPedido> listaMesasPedidos = new ArrayList<>();
+public class Page_Pedidos extends javax.swing.JPanel implements PedidoListener{
+    
+    Map<String, CardPedido> mapDomicilios = new HashMap<>();
+    Map<String, CardPedido> mapMesasPedidos = new HashMap<>();
     
     private JPanel listDomiciliosPanel;
     private JPanel listMesasPanel;
+    
+    private Form_Pedidos formPedidos = new Form_Pedidos();
 
     public Page_Pedidos() {
         initComponents();
 
         init();
+
+        //Item listener para el comboBox de domicilios
+        ItemListener estadoDomiciliosListener = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    int index = cbDomicilios.getSelectedIndex();
+                    if(index == -1){
+                        limpiarForm(2);
+                        for(CardPedido pedido:mapDomicilios.values()){
+                            if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                                agregarDomicilio(pedido);
+                            }
+                        }
+                    }
+                    else if(index == 0){
+                        limpiarForm(2);
+                        for(CardPedido pedido:mapDomicilios.values()){
+                            if(pedido.getEstado() == Pedido.Estado.REALIZADO){
+                                agregarDomicilio(pedido);
+                            }
+                        }
+                    } else if(index == 1){
+                        limpiarForm(2);
+                        for(CardPedido pedido:mapDomicilios.values()){
+                            if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                                agregarDomicilio(pedido);
+                            }
+                        }
+                    } else if(index == 2){
+                        limpiarForm(2);
+                        for(CardPedido pedido:mapDomicilios.values()){
+                            if(pedido.getEstado() == Pedido.Estado.ENPROCESO){
+                                agregarDomicilio(pedido);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        //Item listener para el comboBox de mesas
+        ItemListener estadoMesasListener = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    int index = cbMesas.getSelectedIndex();
+                    if(index == -1){
+                        limpiarForm(1);
+                        for(CardPedido pedido:mapMesasPedidos.values()){
+                            if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                                agregarMesa(pedido);
+                            }
+                        }
+                    }
+                    else if(index == 0){
+                        limpiarForm(1);
+                        for(CardPedido pedido:mapMesasPedidos.values()){
+                            if(pedido.getEstado() == Pedido.Estado.REALIZADO){
+                                agregarMesa(pedido);
+                            }
+                        }
+                    } else if(index == 1){
+                        limpiarForm(1);
+                        for(CardPedido pedido:mapMesasPedidos.values()){
+                            if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                                agregarMesa(pedido);
+                            }
+                        }
+                    } else if(index == 2){
+                        limpiarForm(1);
+                        for(CardPedido pedido:mapMesasPedidos.values()){
+                            if(pedido.getEstado() == Pedido.Estado.ENPROCESO){
+                                agregarMesa(pedido);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        cbDomicilios.addItemListener(estadoDomiciliosListener);
+        cbMesas.addItemListener(estadoMesasListener);
     }
     
     final public void init(){
@@ -60,19 +151,53 @@ public class Page_Pedidos extends javax.swing.JPanel {
         cbMesas.setLabeText("Estado");
 
         CardPedido newPedido1 = new CardPedido();
-        newPedido1.setDatos(new Pedido("#0001","Mesa #1",TIPO.LOCAL,Estado.PENDIENTE));
-        listMesasPanel.add(newPedido1);
+        newPedido1.setDatos(new Pedido("#0001p1","Mesa #1",TIPO.LOCAL,Estado.PENDIENTE,""));
+        mapMesasPedidos.put(newPedido1.getCliente(), newPedido1);
 
         CardPedido newPedido2 = new CardPedido();
-        newPedido2.setDatos(new Pedido("#0002","David",TIPO.ENVIO,Estado.PENDIENTE));
-        listDomiciliosPanel.add(newPedido2);
+        newPedido2.setDatos(new Pedido("#0002","David",TIPO.ENVIO,Estado.PENDIENTE,""));
+        mapDomicilios.put(newPedido2.getCliente(), newPedido2);
         CardPedido newPedido3 = new CardPedido();
-        newPedido3.setDatos(new Pedido("#0003","Luis",TIPO.ENVIO,Estado.ENPROCESO));
-        listDomiciliosPanel.add(newPedido3);
+        newPedido3.setDatos(new Pedido("#0003","Luis",TIPO.ENVIO,Estado.ENPROCESO,""));
+        mapDomicilios.put(newPedido3.getCliente(), newPedido3);
         CardPedido newPedido4 = new CardPedido();
-        newPedido4.setDatos(new Pedido("#0003","Miguel",TIPO.LOCAL,Estado.REALIZADO));
-        listDomiciliosPanel.add(newPedido4);
+        newPedido4.setDatos(new Pedido("#0004","Miguel",TIPO.LOCAL,Estado.REALIZADO,""));
+        mapDomicilios.put(newPedido4.getCliente(), newPedido4);
         
+        int indexDomicilios = cbDomicilios.getSelectedIndex();
+        if(indexDomicilios == -1){
+            for(CardPedido pedido:mapDomicilios.values()){
+                if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                    agregarDomicilio(pedido);
+                }
+            }
+        }
+        
+        int indexMesas = cbMesas.getSelectedIndex();
+        if(indexMesas == -1){
+            for(CardPedido pedido:mapMesasPedidos.values()){
+                if(pedido.getEstado() == Pedido.Estado.PENDIENTE){
+                    agregarMesa(pedido);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void actualizarEstado(String cliente, Pedido.Estado estado, int clase) {
+        if(clase == 1){
+            CardPedido cardPedido = mapDomicilios.get(cliente);
+            cardPedido.setEstado(estado);
+            listMesasPanel.revalidate();
+            listMesasPanel.remove(cardPedido);
+            listMesasPanel.repaint();
+        } else if(clase == 2){
+            CardPedido cardPedido = mapMesasPedidos.get(cliente);
+            cardPedido.setEstado(estado);
+            listDomiciliosPanel.revalidate();
+            listDomiciliosPanel.remove(cardPedido);
+            listDomiciliosPanel.repaint();
+        }
     }
     
     //Clase para personalizar el GridLayout con gap vertical 
@@ -89,7 +214,85 @@ public class Page_Pedidos extends javax.swing.JPanel {
             return verticalgap;
         }
     }
+    
+    public void agregarDomicilio(CardPedido cardPedido){
+        cardPedido.setButtonListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listDomiciliosPanel.remove(cardPedido);
+                repaint();
+                mapDomicilios.remove(cardPedido.getCliente());
+            }
+        });
+        cardPedido.addMouseListener(crearMouseListener(cardPedido,1));
+        listDomiciliosPanel.add(cardPedido);
+        listDomiciliosPanel.revalidate();
+        listDomiciliosPanel.repaint();
+    }
+    
+    public void agregarMesa(CardPedido cardPedido){
+        cardPedido.setButtonListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listMesasPanel.remove(cardPedido);
+                repaint();
+                mapMesasPedidos.remove(cardPedido.getCliente());
+            }
+        });
+        cardPedido.addMouseListener(crearMouseListener(cardPedido,2));
+        listMesasPanel.add(cardPedido);
+        listMesasPanel.revalidate();
+        listMesasPanel.repaint();
+    }
+    
+    private MouseListener crearMouseListener(CardPedido cardPedido, int clase) {
+        return new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formPedidos.setCodigo(cardPedido.getCodigo());
+                formPedidos.setCliente(cardPedido.getCliente());
+                formPedidos.setEstado(cardPedido.getEstado());
+                formPedidos.setNotas(cardPedido.getNotas());
+                formPedidos.setListaProductos(cardPedido.getListaProductos());
+                formPedidos.setPedido(cardPedido.getPedido());
+                formPedidos.setClase(clase);
+                formPedidos.setPedidoListener(Page_Pedidos.this);
+                formPedidos.setVisible(true);
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if (evt.getSource() instanceof CardPedido) {
+                    CardPedido pedido = (CardPedido) evt.getSource();
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    pedido.setBorderColor(Color.RED);
+                }
+            }
 
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                if (evt.getSource() instanceof CardPedido) {
+                    CardPedido pedido = (CardPedido) evt.getSource();
+                    pedido.setBorderColor(Color.WHITE);
+                    setCursor(Cursor.getDefaultCursor());
+                }
+            }
+        };
+    }
+
+    public void limpiarForm(int clase){
+        if(clase == 1){
+            cbDomicilios.setSelectedIndex(-1);
+            listMesasPanel.removeAll();
+            listMesasPanel.revalidate();
+            listMesasPanel.repaint();
+        } else if(clase == 2){
+            cbMesas.setSelectedIndex(-1);
+            listDomiciliosPanel.removeAll();
+            listDomiciliosPanel.revalidate();
+            listDomiciliosPanel.repaint(); 
+        }
+        repaint();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
