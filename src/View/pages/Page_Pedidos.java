@@ -185,11 +185,14 @@ public class Page_Pedidos extends javax.swing.JPanel implements PedidoListener{
 
     @Override
     public void actualizarEstado(String cliente, Pedido.Estado estado, int clase) {
+        repaint();
         if(clase == 1){
             CardPedido cardPedido = mapDomicilios.get(cliente);
             cardPedido.setEstado(estado);
-            listMesasPanel.revalidate();
+            listMesasPanel.removeAll();
+            cbMesas.setSelectedIndex(-1);
             listMesasPanel.remove(cardPedido);
+            listMesasPanel.revalidate();
             listMesasPanel.repaint();
         } else if(clase == 2){
             CardPedido cardPedido = mapMesasPedidos.get(cliente);

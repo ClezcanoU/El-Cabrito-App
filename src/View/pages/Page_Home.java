@@ -1,10 +1,29 @@
 
 package View.pages;
 
+import Modelo.interfaz.ModelCelda2;
+import Modelo.interfaz.ModelName;
+import Modelo.interfaz.ModelPieChart;
 import Modelo.interfaz.Model_Card;
+import View.Swing.PieChart;
 import View.Swing.ScrollBarCustom2;
+import View.Tabla.CellBotones;
+import View.Tabla.CellEstado;
+import View.Tabla.CellLugar;
+import View.Tabla.CellName;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.ImageIcon;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class Page_Home extends javax.swing.JPanel {
@@ -12,10 +31,8 @@ public class Page_Home extends javax.swing.JPanel {
 
     public Page_Home() {
         initComponents();
-        
-        sptabla.getViewport().setBackground(Color.WHITE);
-        sptabla.setVerticalScrollBar(new ScrollBarCustom2());
-        sptabla.getVerticalScrollBar().setBackground(Color.WHITE);
+        tabla1.addTableStyle(jScrollEmpleados);
+        initDataTable();
         
         //Anexion de los datos de las cards
         card1.setData(new Model_Card("Mesas",new ImageIcon(getClass().getResource("/View/Icon/4.png")),"Disponibles","14",
@@ -24,8 +41,94 @@ public class Page_Home extends javax.swing.JPanel {
                 new ImageIcon(getClass().getResource("/View/Icon/truck.png")),"Pendientes","4"));
         card3.setData(new Model_Card("Ventas",new ImageIcon(getClass().getResource("/View/Icon/inboxes.png")),"Platos Vendidos","40",
                 new ImageIcon(getClass().getResource("/View/Icon/cash.png")),"Valor","$$$$$$"));
+        
+        
+        double[] gastosArray = {1500.0, 1200.0, 1800.0, 1300.0};
+        double[] ingresosArray = {3000.0, 3500.0, 4000.0, 3800.0};
+
+        // Convierte los arrays de primitivos a arrays de objetos
+        Double[] gastos = Arrays.stream(gastosArray).boxed().toArray(Double[]::new);
+        Double[] ingresos = Arrays.stream(ingresosArray).boxed().toArray(Double[]::new);
+
+        List<Double> beneficios = calcularBeneficios(Arrays.asList(gastos), Arrays.asList(ingresos));
+        
+        
+        
+        showGastosIngresosBeneficiosBarChart(Arrays.asList(gastos), Arrays.asList(ingresos), beneficios);
+        
+//        pieChart1.setChartType(PieChart.PeiChartType.DEFAULT);
+//        pieChart1.addData(new ModelPieChart("Hamburguesa", 78, new Color(23, 126, 238)));
+//        pieChart1.addData(new ModelPieChart("Churrasco", 45, new Color(221, 65, 65)));
+//        pieChart1.addData(new ModelPieChart("Ceviche", 26, new Color(47, 157, 64)));
+//        pieChart1.addData(new ModelPieChart("Camarones", 31, new Color(196, 151, 58)));
     }
 
+    private void initDataTable() {
+        tabla1.addTableCell(new CellName(), 0);
+        tabla1.addTableCell(new CellLugar(), 1);
+        tabla1.addTableCell(new CellEstado(), 2);
+        tabla1.addTableCell(new CellBotones(), 3);
+        
+        tabla1.addRow(new ModelCelda2(new ModelName("Luis", new ImageIcon(getClass().getResource("/View/Icon/pollo.png")), ""), "Cocina", "Activo"), false);  //  ture is animate row
+        tabla1.addRow(new ModelCelda2(new ModelName("Juan", new ImageIcon(getClass().getResource("/View/Icon/ensalada.png")), ""), "Salon 1", "NoActivo"), false);  //  ture is animate row
+        tabla1.addRow(new ModelCelda2(new ModelName("Santiago", new ImageIcon(getClass().getResource("/View/Icon/coctel.png")), ""), "Terraza", "Descanso"), false);  //  ture is animate row
+        tabla1.addRow(new ModelCelda2(new ModelName("Maria", new ImageIcon(getClass().getResource("/View/Icon/flan.png")), ""), "Salon 3", "Activo"), false);  //  ture is animate row
+//        tabla1.editRowAt(0);
+//        table1.addTableCell(new CellGender(), 1);
+//        table1.addTableCell(new CellAge(), 2);
+//        table1.addTableCell(new CellAddress(), 3);
+//        table1.addTableCell(new CellTel(), 4);
+//        table1.addRow(new ModelStaff(new ModelName("Jon", "Cina", new ImageIcon(getClass().getResource("/com/raven/icon/profile.jpg")), ""), "Female", 30, "Raven123@gmail.com", "100 123 123"), false);  //  ture is animate row
+    }
+    
+    private static List<Double> calcularBeneficios(List<Double> gastos, List<Double> ingresos) {
+        // Asumiendo que beneficio = ingreso - gasto para cada mes
+        if (gastos.size() != ingresos.size()) {
+            throw new IllegalArgumentException("Las listas de gastos e ingresos deben tener la misma longitud.");
+        }
+
+        List<Double> beneficios = new ArrayList<>();
+        for (int i = 0; i < gastos.size(); i++) {
+            double beneficio = ingresos.get(i) - gastos.get(i);
+            beneficios.add(beneficio);
+        }
+
+        return beneficios;
+    }
+    
+    
+    public void showGastosIngresosBeneficiosBarChart(List<Double> gastos, List<Double> ingresos, List<Double> beneficios) {
+
+        // Llama al método para mostrar la gráfica de barras con los datos de prueba
+        
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        int startMonth = Math.max(0, gastos.size() - 4); // Últimos 4 meses o menos si no hay suficientes datos
+
+        for (int i = startMonth; i < gastos.size(); i++) {
+            dataset.setValue(gastos.get(i), "Gastos", "Mes " + (i + 1));
+            dataset.setValue(ingresos.get(i), "Ingresos", "Mes " + (i + 1));
+            dataset.setValue(beneficios.get(i), "Beneficios", "Mes " + (i + 1));
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart("Gastos/Ingresos", "Meses", "Cantidad",
+                dataset, PlotOrientation.VERTICAL, true, true, false);
+
+        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        categoryPlot.setBackgroundPaint(Color.WHITE);
+
+        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
+        renderer.setSeriesPaint(0, Color.RED); // Gastos en rojo
+        renderer.setSeriesPaint(1, Color.GREEN); // Ingresos en verde
+        renderer.setSeriesPaint(2, Color.BLUE); // Beneficios en azul
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        panelBarOp2.removeAll();
+        panelBarOp2.add(chartPanel, BorderLayout.CENTER);
+        panelBarOp2.validate();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,8 +137,10 @@ public class Page_Home extends javax.swing.JPanel {
         card1 = new View.Component.CardResumen();
         card2 = new View.Component.CardResumen();
         card3 = new View.Component.CardResumen();
-        sptabla = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        panelRedondeado1 = new View.Swing.PanelRedondeado();
+        jScrollEmpleados = new javax.swing.JScrollPane();
+        tabla1 = new View.Tabla.Tabla();
+        panelBarOp2 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(242, 242, 242));
 
@@ -53,40 +158,39 @@ public class Page_Home extends javax.swing.JPanel {
         card3.setColor2(new java.awt.Color(0, 88, 26));
         panel.add(card3);
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        panelRedondeado1.setBackground(new java.awt.Color(60, 60, 60));
+        panelRedondeado1.setOpaque(true);
+
+        jScrollEmpleados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(60, 60, 60)));
+
+        tabla1.setBackground(new java.awt.Color(60, 60, 60));
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"empleado 1", "salon 1", "activo"},
-                {"empleado 2", "salon 3", "descanso"},
-                {"empleado 3", "salon 3", "activo"},
-                {"empleado 4", "cocina", "activo"},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Empleado", "Lugar", "Estado"
+                "Empleado", "Lugar", "Estado", "Botones"
             }
         ));
-        jTable1.setOpaque(false);
-        sptabla.setViewportView(jTable1);
+        jScrollEmpleados.setViewportView(tabla1);
+        if (tabla1.getColumnModel().getColumnCount() > 0) {
+            tabla1.getColumnModel().getColumn(3).setPreferredWidth(30);
+        }
+
+        javax.swing.GroupLayout panelRedondeado1Layout = new javax.swing.GroupLayout(panelRedondeado1);
+        panelRedondeado1.setLayout(panelRedondeado1Layout);
+        panelRedondeado1Layout.setHorizontalGroup(
+            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRedondeado1Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(jScrollEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelRedondeado1Layout.setVerticalGroup(
+            panelRedondeado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        panelBarOp2.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -96,9 +200,10 @@ public class Page_Home extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(605, 605, 605)
-                        .addComponent(sptabla, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE))
+                        .addComponent(panelBarOp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -107,8 +212,10 @@ public class Page_Home extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sptabla, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelRedondeado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelBarOp2, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -117,8 +224,10 @@ public class Page_Home extends javax.swing.JPanel {
     private View.Component.CardResumen card1;
     private View.Component.CardResumen card2;
     private View.Component.CardResumen card3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollEmpleados;
     private javax.swing.JLayeredPane panel;
-    private javax.swing.JScrollPane sptabla;
+    private javax.swing.JPanel panelBarOp2;
+    private View.Swing.PanelRedondeado panelRedondeado1;
+    private View.Tabla.Tabla tabla1;
     // End of variables declaration//GEN-END:variables
 }

@@ -26,6 +26,13 @@ public class Insumo extends ElementoRestaurante{
         this.ubicacion = ubicacion;
     }
 
+    public Insumo(String codigo, int cantidad, String ubicacion, String nombre) {
+        super(nombre);
+        this.codigo = codigo;
+        this.cantidad = cantidad;
+        this.ubicacion = ubicacion;
+    }
+    
     public Insumo() {
     }
     
